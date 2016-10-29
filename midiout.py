@@ -58,7 +58,7 @@ class Chord(object):
     pass
 
 chord = Chord()
-chord.notename = 'C'
+chord.notename = 'c'
 chord.octave = 3
 chord.default = [0,4,7]
 chord.name = 'major'
@@ -73,17 +73,19 @@ def getchord(notename=chord.notename, chordname=chord.name, octave=chord.octave)
     chord.notename = notename
     chord.name = chordname
     chord.octave = octave
-    chord.default = chords[name]
-    chord.out = chords[name]
-    notenum = note_names[note]
+    chord.default = chords[chord.name]
+    chord.out = chords[chord.name]
+    notenum = note_names[chord.notename]
     transpose = (octave*12)+notenum
     for i in range(0,len(chord.default)):
         #print(i,chord.out[i])
         noteout = chord.default[i]+transpose
-        if noteout >= 0
+        if noteout >= 0:
             chord.out[i] = chord.default[i]+transpose
     print chord.out
     return chord.out
+
+getchord()
 
 try:
     with mido.open_output(portname, autoreset=True) as port:
@@ -104,8 +106,8 @@ try:
                 print('arp ++++++')
                 for n in chord.out:
                     noteout = n+24
-                    rest = 0.2
-                    dur = (chord.beat/2)-rest
+                    rest = 0.1
+                    dur = (chord.beat/4)-rest
                     on = Message('note_on', note=noteout)
                     port.send(on)
                     time.sleep(dur)
