@@ -16,7 +16,7 @@ def chord():
     chord = request.args.get('transcript')
     confidence = request.args.get('confidence')
 
-    '''do midi staff with chord request'''
+    '''do midi stuff with chord request'''
     t = Template("chord request='${chord}' (${confidence})")
 
     str = t.substitute({"chord": chord, "confidence": confidence})
