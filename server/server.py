@@ -5,6 +5,20 @@ from string import Template
 import json
 import re
 
+import sys
+import time
+import mido
+from mido import Message
+
+from midiout import Chord
+
+if len(sys.argv) > 1:
+    portname = sys.argv[1]
+else:
+    # portname = 'Base2 MIDI 1'  # Use default port
+    portname = 'MicroBrute MIDI 1'
+
+
 '''app = Flask(__name__, static_url_path='/public')'''
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -89,7 +103,16 @@ def chord():
 
     print json.dumps(resp, indent=4, sort_keys=True)
 
+    chord = Chord()
+    chord.getchord()
+    chord.arpeggiate()
+    chord.getchord('e','minor',6)
+    chord.arpeggiate()
+    chord.getchord('d','major')
+    chord.play()
+
     return json.dumps(resp)
 
 if __name__ == "__main__":
+    
     app.run()
