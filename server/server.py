@@ -105,14 +105,14 @@ def chord():
 
     chord = Chord()
     chord.getchord()
-    chord.arpeggiate()
-    chord.getchord('e','minor',6)
-    chord.arpeggiate()
-    chord.getchord('d','major')
+
+    for note in resp['notes']:
+        chord.getchord(note['note'], note['params'][0], resp['octave'])
+
     chord.play()
 
     return json.dumps(resp)
 
 if __name__ == "__main__":
-    
+
     app.run()
