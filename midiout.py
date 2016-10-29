@@ -55,37 +55,34 @@ note_names = {
 
 
 class Chord(object):
-    pass
-
+    def __init__(self):
+        self.notename = 'c'
+        self.octave = 3
+        self.default = [0,4,7]
+        self.name = 'major'
+        self.out = [36,39,43]
+        self.beat = 1.0 # seconds
+        self.arp = True
+    def bpm(b):
+        self.beat = 60000/b
+    def getchord(notename=self.notename, chordname=self.name, octave=self.octave):
+        self.notename = notename
+        self.name = chordname
+        self.octave = octave
+        self.default = chords[self.name]
+        self.out = chords[self.name]
+        notenum = note_names[self.notename]
+        transpose = (octave*12)+notenum
+        for i in range(0,len(self.default)):
+            #print(i,self.out[i])
+            noteout = self.default[i]+transpose
+            if noteout >= 0:
+                self.out[i] = self.default[i]+transpose
+        print self.out
+        return self.out
+        
 chord = Chord()
-chord.notename = 'c'
-chord.octave = 3
-chord.default = [0,4,7]
-chord.name = 'major'
-chord.out = [36,39,43]
-chord.beat = 1.0 # seconds
-chord.arp = True
-
-def bpm(b):
-    chord.beat = 60000/b
-
-def getchord(notename=chord.notename, chordname=chord.name, octave=chord.octave):
-    chord.notename = notename
-    chord.name = chordname
-    chord.octave = octave
-    chord.default = chords[chord.name]
-    chord.out = chords[chord.name]
-    notenum = note_names[chord.notename]
-    transpose = (octave*12)+notenum
-    for i in range(0,len(chord.default)):
-        #print(i,chord.out[i])
-        noteout = chord.default[i]+transpose
-        if noteout >= 0:
-            chord.out[i] = chord.default[i]+transpose
-    print chord.out
-    return chord.out
-
-getchord()
+chord.getchord()
 
 try:
     with mido.open_output(portname, autoreset=True) as port:
