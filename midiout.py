@@ -87,35 +87,37 @@ class Chord(object):
 
 chord = Chord()
 chord.getchord()
+def play():
+    print('play chord>>>>>')
+    for n in chord.out:
+        print(n)
+        on = Message('note_on', note=n)
+        port.send(on)
+    time.sleep(chord.beat/2)
+    for n in chord.out:
+        off = Message('note_off', note=n)
+        port.send(off)
 
-try:
-    with mido.open_output(portname, autoreset=True) as port:
-        print('Using {}'.format(port))
-        while True:
-            if chord.arp == False:
-                print('no arp>>>>>')
-                for n in chord.out:
-                    print(n)
-                    on = Message('note_on', note=n)
-                    port.send(on)
-                time.sleep(chord.beat/2)
-                for n in chord.out:
-                    off = Message('note_off', note=n)
-                    port.send(off)
-                time.sleep(chord.beat/2)
-            elif chord.arp == True:
-                print('arp ++++++')
-                for n in chord.out:
-                    rest = 0.1
-                    dur = (chord.beat/4)-rest
-                    on = Message('note_on', note=n)
-                    port.send(on)
-                    time.sleep(dur)
-                    off = Message('note_off', note=n)
-                    port.send(off)
-                    time.sleep(rest)
-
-except KeyboardInterrupt:
-    pass
-
-print()
+def arpeggiate():
+    print('arp ++++++')
+    for n in chord.out:
+        rest = 0.1
+        dur = (chord.beat/4)-rest
+        on = Message('note_on', note=n)
+        port.send(on)
+        time.sleep(dur)
+        off = Message('note_off', note=n)
+        port.send(off)
+        time.sleep(rest)
+if __name__ == '__main__':
+    try:
+        with mido.open_output(portname, autoreset=True) as port:
+            print('Using {}'.format(port))
+            chord.getchord()
+            arpeggiate()
+            chord.getchord('e','minor',6)
+            arpeggiate()
+            chord.getchord('d','major')
+            play()
+    except KeyboardInterrupt:
+        pass
