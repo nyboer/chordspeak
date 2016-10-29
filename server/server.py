@@ -11,6 +11,9 @@ import mido
 from mido import Message
 
 from midiout import Chord
+from OpenSSL import SSL
+
+context = ('keys/server.crt', 'keys/server.key')
 
 if len(sys.argv) > 1:
     portname = sys.argv[1]
@@ -115,4 +118,4 @@ def chord():
 
 if __name__ == "__main__":
 
-    app.run()
+    app.run(ssl_context=context)
