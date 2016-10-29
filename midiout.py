@@ -53,7 +53,6 @@ note_names = {
     'c flat': 11,
 }
 
-
 class Chord(object):
     def __init__(self):
         self.notename = 'c'
@@ -63,16 +62,21 @@ class Chord(object):
         self.out = [36,39,43]
         self.beat = 1.0 # seconds
         self.arp = True
-    def bpm(b):
+
+    def bpm(self,b):
         self.beat = 60000/b
-    def getchord(notename=self.notename, chordname=self.name, octave=self.octave):
-        self.notename = notename
-        self.name = chordname
-        self.octave = octave
+
+    def getchord(self,nn=None, chn=None, octv=None):
+        if nn:
+            self.notename = nn
+        if chn:
+            self.name = chn
+        if octv:
+            self.octave = octv
         self.default = chords[self.name]
         self.out = chords[self.name]
         notenum = note_names[self.notename]
-        transpose = (octave*12)+notenum
+        transpose = (self.octave*12)+notenum
         for i in range(0,len(self.default)):
             #print(i,self.out[i])
             noteout = self.default[i]+transpose
@@ -80,7 +84,7 @@ class Chord(object):
                 self.out[i] = self.default[i]+transpose
         print self.out
         return self.out
-        
+
 chord = Chord()
 chord.getchord()
 
@@ -102,13 +106,12 @@ try:
             elif chord.arp == True:
                 print('arp ++++++')
                 for n in chord.out:
-                    noteout = n+24
                     rest = 0.1
                     dur = (chord.beat/4)-rest
-                    on = Message('note_on', note=noteout)
+                    on = Message('note_on', note=n)
                     port.send(on)
                     time.sleep(dur)
-                    off = Message('note_off', note=noteout)
+                    off = Message('note_off', note=n)
                     port.send(off)
                     time.sleep(rest)
 
