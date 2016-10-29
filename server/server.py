@@ -107,9 +107,9 @@ def chord():
     chord.getchord()
 
     for note in resp['notes']:
-        chord.getchord(note['note'], note['params'][0], resp['octave'])
+        chord.getchord(note['note'], note['params'][0], int(resp['octave']))
 
-    chord.play()
+    chord.arpeggiate()
 
     return json.dumps(resp)
 
