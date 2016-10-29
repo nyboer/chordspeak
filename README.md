@@ -13,9 +13,17 @@ sudo apt-get install librtmidi-dev libportmidi-dev
 ```
 I'm not entirely sure that `librtmidi-dev` is needed, but I'm too lazy to fully investigate.
 
+Other dependencies
+```
+sudo pip install Flask
+sudo pip install flask-cors
+sudo pip install google-api-python-client
+```
+
 ##Help
 In testing the Google Voice API, we created some test sound files of speech. Originally stereo 44.1K WAV, we had to convert them to RAW. The `sox` command was helpful:
 ```
 sudo apt-get install sox
 sox C.wav --channels=1 --bits=16 --rate=16000 --encoding=signed-integer --endian=little C.raw
 ```
+
