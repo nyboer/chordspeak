@@ -1,0 +1,6 @@
+D minor play transpose 5
+D minor play transpose 5 argumented
+letter A minor play octave 3
+key of A major play transpose 5
+D minor A minor C minor play octave 2
+C major D minor G major play octave 4
