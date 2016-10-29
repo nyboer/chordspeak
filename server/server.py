@@ -107,10 +107,13 @@ def chord():
     print json.dumps(resp, indent=4, sort_keys=True)
 
     chord = Chord()
-    chord.getchord()
 
-    for note in resp['notes']:
-        chord.getchord(note['note'], note['params'][0], int(resp['octave']))
+    if 'notes' in resp:
+        for note in resp['notes']:
+            chord.getchord(note['note'], note['params'][0])
+    if 'octave' in resp:
+        for octave in resp['octave']:
+            chord.getchord(octv=int(resp['octave']))
 
     chord.arpeggiate()
 
@@ -118,4 +121,4 @@ def chord():
 
 if __name__ == "__main__":
 
-    app.run(ssl_context=context)
+    app.run(host='172.20.10.14',ssl_context=context)
