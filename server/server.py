@@ -18,15 +18,16 @@ context = ('keys/server.crt', 'keys/server.key')
 if len(sys.argv) > 1:
     portname = sys.argv[1]
 else:
-    # portname = 'Base2 MIDI 1'  # Use default port
+    # this just happened to be what we used to test
     portname = 'MicroBrute MIDI 1'
 
 
-'''app = Flask(__name__, static_url_path='/public')'''
 app = Flask(__name__, static_url_path='')
 CORS(app)
 pattern = r"^[abcdefgABCDEFG]$"
 
+
+'''parses strings from speech to text, looking to match commands in the midiout.py module'''
 def parser(str):
     chords = str.split(" ")
     idx = 0
@@ -80,8 +81,6 @@ def parser(str):
 
         idx += 1
 
-
-
     return ret
 
 @app.route("/")
@@ -107,18 +106,15 @@ def chord():
     print json.dumps(resp, indent=4, sort_keys=True)
 
     chord = Chord()
+    chord.getchord()
 
-    if 'notes' in resp:
-        for note in resp['notes']:
-            chord.getchord(note['note'], note['params'][0])
-    if 'octave' in resp:
-        for octave in resp['octave']:
-            chord.getchord(octv=int(resp['octave']))
+    for note in resp['notes']:
+        chord.getchord(note['note'], note['params'][0], resp['octave'])
 
-    chord.arpeggiate()
+    chord.play()
 
     return json.dumps(resp)
 
 if __name__ == "__main__":
 
-    app.run(host='172.20.10.14',ssl_context=context)
+    app.run(ssl_context=context)

@@ -1,3 +1,6 @@
+
+'''used to test the parsing function with some pre-baked phrases in testscript.txt'''
+
 import httplib2
 import urllib
 
@@ -25,4 +28,3 @@ for script in scripts:
         print script
         resp, content = h.request(endpoint+"?"+data, "GET")
         print(content)
-
