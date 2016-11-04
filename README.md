@@ -6,8 +6,9 @@ Using a microphone, speak a chord name and any modifiers (like sharp, transpose,
 
 Run the program on C.H.I.P. from the `server/`
 ```
-python server.py
+python server.py "Name Of MIDI Port"
 ```
+You can get the "Name Of MIDI Port" with the command `amidi -l` which lists all available MIDI ports.
 
 ##Setup
 We are using Python to create MIDI generation functions and send calls to the Web Speech API to convert speech to text.
@@ -31,6 +32,10 @@ sudo pip install flask-cors
 sudo pip install google-api-python-client
 sudo pip install pyopenssl
 ```
+
+##You May Want To Change...
+In `midiout.py`, you can change the default MIDI port. It's currently set to `portname = 'MicroBrute MIDI 1'`
+In `server.py`, you can change the 'host' from the SSL context in the very last line of the script. This might be needed if the name "george.local" can't be resolved for some reason, or you want to use the IP address, or get rid of it entirely.
 
 ##About The Files In This Repository
 
